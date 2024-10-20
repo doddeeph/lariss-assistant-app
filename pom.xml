@@ -26,8 +26,8 @@
         <!-- Build properties -->
         <maven.version>3.2.5</maven.version>
         <java.version>11</java.version>
-        <node.version>v16.17.0</node.version>
-        <npm.version>8.19.1</npm.version>
+        <node.version>v16.20.1</node.version>
+        <npm.version>9.2.0</npm.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -308,6 +308,16 @@
             <artifactId>metrics-core</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -445,6 +455,11 @@
                                 <version>${jaxb-runtime.version}</version>
                             </path>
                             <!-- jhipster-needle-maven-add-annotation-processor -->
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>1.18.30</version> <!-- Update to the latest version of Lombok -->
+                            </path>
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>
