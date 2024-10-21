@@ -110,6 +110,7 @@ jhipster:
 # application:
 openai:
   api:
+    key: ${OPENAI_API_KEY}
     url: https://api.openai.com/v1/chat/completions
     max-token: 100
     temperature: 0.7

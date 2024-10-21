@@ -19,8 +19,7 @@ public class OpenAiService {
 
     private final WebClient webClient;
 
-    // Inject the API key from the environment variable OPENAI_API_KEY
-    @Value("${OPENAI_API_KEY}")
+    @Value("${openai.api.key}")
     private String apiKey;
 
     @Value("${openai.api.url}")
