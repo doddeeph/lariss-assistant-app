@@ -1,5 +1,6 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
 version: '3.8'
+
 services:
   laris-assistant-app:
     image: laris-assistant-app:latest
@@ -20,8 +21,6 @@ services:
     # remove the "127.0.0.1:" prefix
     ports:
       - 127.0.0.1:8080:8080
-    networks:
-      - laris-net
 
   laris-assistant-postgresql:
     image: postgres:14.5
@@ -36,8 +35,6 @@ services:
     # remove the "127.0.0.1:" prefix
     ports:
       - 127.0.0.1:5432:5432
-    networks:
-      - laris-net
 
   laris-assistant-redis:
     image: redis:6.2.7
@@ -46,19 +43,3 @@ services:
     # remove the "127.0.0.1:" prefix
     ports:
       - 127.0.0.1:6379:6379
-    networks:
-      - laris-net
-
-  laris-assistant-nginx:
-    image: nginx:latest
-    container_name: laris-assistant-nginx
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf # Mount custom nginx config
-    ports:
-      - '80:80' # Expose port 80 to the public
-    networks:
-      - laris-net
-
-networks:
-  laris-net:
-    driver: bridge
