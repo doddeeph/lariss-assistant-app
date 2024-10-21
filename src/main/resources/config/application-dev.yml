@@ -108,3 +108,9 @@ jhipster:
 # ===================================================================
 
 # application:
+openai:
+  api:
+    ur: https://api.openai.com/v1/chat/completions
+    max-token: 100
+    temperature: 0.7
+    role-system-message: You are a helpful assistant.

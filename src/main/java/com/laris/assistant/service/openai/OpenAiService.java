@@ -3,6 +3,7 @@ package com.laris.assistant.service.openai;
 import com.laris.assistant.service.openai.dto.Message;
 import com.laris.assistant.service.openai.dto.OpenAiRequest;
 import com.laris.assistant.service.openai.dto.OpenAiResponse;
+import com.laris.assistant.service.openai.dto.Role;
 import java.util.Arrays;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,39 +21,45 @@ public class OpenAiService {
 
     // Inject the API key from the environment variable OPENAI_API_KEY
     @Value("${OPENAI_API_KEY}")
-    //@Value("${openai.api.key}")
     private String apiKey;
 
-    // Inject the API key from the environment variable OPENAI_API_URL
-    @Value("${OPENAI_API_URL}")
-    //@Value("${openai.api.url}")
+    @Value("${openai.api.url}")
     private String apiUrl;
+
+    @Value("${openai.api.max-token}")
+    private int maxToken;
+
+    @Value("${openai.api.temperature}")
+    private double temperature;
+
+    @Value("${openai.api.role-system-message}")
+    private String roleSystemMessage;
 
     public OpenAiService(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.build();
     }
 
-    private OpenAiRequest buildOpenAiRequest(String userMessage) {
+    private OpenAiRequest buildOpenAiRequest(String ask) {
         return OpenAiRequest
             .builder()
             .model("gpt-3.5-turbo")
             .messages(
                 Arrays.asList(
-                    Message.builder().role("system").content("You are a helpful assistant.").build(),
-                    Message.builder().role("user").content(userMessage).build()
+                    Message.builder().role(Role.SYSTEM.name().toLowerCase()).content(roleSystemMessage).build(),
+                    Message.builder().role(Role.USER.name().toLowerCase()).content(ask).build()
                 )
             )
-            .maxToken(1000)
-            .temperature(0.7)
+            .maxToken(maxToken)
+            .temperature(temperature)
             .build();
     }
 
-    public Mono<String> getAssistantResponse(String userMessage) {
+    public Mono<String> getAssistantResponse(String ask) {
         return webClient
             .post()
             .uri(apiUrl)
             .header("Authorization", "Bearer " + apiKey)
-            .bodyValue(buildOpenAiRequest(userMessage))
+            .bodyValue(buildOpenAiRequest(ask))
             .retrieve()
             .onStatus(
                 HttpStatus::is4xxClientError,
@@ -70,11 +77,6 @@ public class OpenAiService {
             )
             .bodyToMono(OpenAiResponse.class)
             .map(openAiResponse -> openAiResponse.getChoices().get(0).getMessage().getContent())
-            .doOnError(
-                WebClientResponseException.class,
-                e -> {
-                    log.error("Error occurred: {}", e.getResponseBodyAsString());
-                }
-            );
+            .doOnError(WebClientResponseException.class, e -> log.error("Error occurred: {}", e.getResponseBodyAsString()));
     }
 }

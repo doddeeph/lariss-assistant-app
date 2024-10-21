@@ -17,8 +17,8 @@ public class OpenAiController {
         this.openAiService = openAiService;
     }
 
-    @GetMapping("/assistant/ask")
-    public Mono<String> askAssistant(@RequestParam String message) {
-        return openAiService.getAssistantResponse(message);
+    @GetMapping("/assistant")
+    public Mono<String> askAssistant(@RequestParam String ask) {
+        return openAiService.getAssistantResponse(ask);
     }
 }
