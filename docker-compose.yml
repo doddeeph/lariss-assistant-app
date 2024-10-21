@@ -36,6 +36,8 @@ services:
     # remove the "127.0.0.1:" prefix
     ports:
       - 127.0.0.1:5432:5432
+    networks:
+      - laris-net
 
   laris-assistant-redis:
     image: redis:6.2.7
@@ -44,6 +46,8 @@ services:
     # remove the "127.0.0.1:" prefix
     ports:
       - 127.0.0.1:6379:6379
+    networks:
+      - laris-net
 
   laris-assistant-nginx:
     image: nginx:latest
