@@ -1,0 +1,42 @@
+# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
+version: '3.8'
+services:
+  laris-assistant-app:
+    image: laris-assistant-app:latest
+    container_name: laris-assistant-app
+    build: .
+    environment:
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - SPRING_PROFILES_ACTIVE=dev,api-docs
+      - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://laris-assistant-postgresql:5432/LarisAssistantApp
+      - SPRING_LIQUIBASE_URL=jdbc:postgresql://laris-assistant-postgresql:5432/LarisAssistantApp
+      - JHIPSTER_CACHE_REDIS_SERVER=redis://laris-assistant-redis:6379
+      - JHIPSTER_CACHE_REDIS_CLUSTER=false
+      # - JHIPSTER_CACHE_REDIS_SERVER=redis://laris-assistant-redis:6379
+      # - JHIPSTER_CACHE_REDIS_CLUSTER=true
+      - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+    # If you want to expose these ports outside your dev PC,
+    # remove the "127.0.0.1:" prefix
+    ports:
+      - 127.0.0.1:8080:8080
+  laris-assistant-postgresql:
+    image: postgres:14.5
+    container_name: laris-assistant-postgresql
+    # volumes:
+    #   - ~/volumes/jhipster/laris-assistant/postgresql/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=LarisAssistantApp
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    # If you want to expose these ports outside your dev PC,
+    # remove the "127.0.0.1:" prefix
+    ports:
+      - 127.0.0.1:5432:5432
+  laris-assistant-redis:
+    image: redis:6.2.7
+    container_name: laris-assistant-redis
+    # If you want to expose these ports outside your dev PC,
+    # remove the "127.0.0.1:" prefix
+    ports:
+      - 127.0.0.1:6379:6379
