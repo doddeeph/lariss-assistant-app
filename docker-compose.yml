@@ -17,10 +17,12 @@ services:
       # - JHIPSTER_CACHE_REDIS_SERVER=redis://laris-assistant-redis:6379
       # - JHIPSTER_CACHE_REDIS_CLUSTER=true
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+    env_file:
+      - .env
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 127.0.0.1:8080:8080
+      - '80:8080'
 
   laris-assistant-postgresql:
     image: postgres:14.5
@@ -34,7 +36,7 @@ services:
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 127.0.0.1:5432:5432
+      - '127.0.0.1:5432:5432'
 
   laris-assistant-redis:
     image: redis:6.2.7
@@ -42,4 +44,4 @@ services:
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 127.0.0.1:6379:6379
+      - '127.0.0.1:6379:6379'
