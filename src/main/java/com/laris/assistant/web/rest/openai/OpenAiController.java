@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/openai")
+@RequestMapping("/api/public/openai")
 public class OpenAiController {
 
     private final OpenAiService openAiService;
