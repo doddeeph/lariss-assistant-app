@@ -25,6 +25,9 @@ public class OpenAiService {
     @Value("${openai.api.url}")
     private String apiUrl;
 
+    @Value("${openai.api.model}")
+    private String model;
+
     @Value("${openai.api.max-token}")
     private int maxToken;
 
@@ -41,7 +44,7 @@ public class OpenAiService {
     private OpenAiRequest buildOpenAiRequest(String ask) {
         return OpenAiRequest
             .builder()
-            .model("gpt-3.5-turbo")
+            .model(model)
             .messages(
                 Arrays.asList(
                     Message.builder().role(Role.SYSTEM.name().toLowerCase()).content(roleSystemMessage).build(),

@@ -17,6 +17,11 @@ services:
       # - JHIPSTER_CACHE_REDIS_SERVER=redis://laris-assistant-redis:6379
       # - JHIPSTER_CACHE_REDIS_CLUSTER=true
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+      - OPENAI_API_URL=https://api.openai.com/v1/chat/completions
+      - OPENAI_API_MODEL=gpt-3.5-turbo
+      - OPENAI_API_MAX_TOKEN=100
+      - OPENAI_API_TEMPERATURE=0.7
+      - OPENAI_API_ROLE_SYSTEM_MESSAGE=You are a helpful assistant.
     env_file:
       - .env
     # If you want to expose these ports outside your dev PC,
