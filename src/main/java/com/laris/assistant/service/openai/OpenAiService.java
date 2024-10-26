@@ -51,7 +51,7 @@ public class OpenAiService {
                     Message.builder().role(Role.USER.name().toLowerCase()).content(ask).build()
                 )
             )
-            .maxToken(maxToken)
+            .maxCompletionTokens(maxToken)
             .temperature(temperature)
             .build();
     }
