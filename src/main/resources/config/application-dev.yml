@@ -108,6 +108,9 @@ jhipster:
 # ===================================================================
 
 # application:
+twilio:
+  auth-token: ${TWILIO_AUTH_TOKEN}
+
 openai:
   api:
     key: ${OPENAI_API_KEY}

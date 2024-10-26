@@ -318,6 +318,11 @@
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>10.6.2</version>
+        </dependency>
     </dependencies>
 
     <build>
