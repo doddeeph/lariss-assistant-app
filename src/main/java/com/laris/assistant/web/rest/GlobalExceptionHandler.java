@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.OK).body("An error occurred " + e.getMessage());
     }
 
     @ExceptionHandler(WebClientResponseException.class)
@@ -31,6 +31,6 @@ public class GlobalExceptionHandler {
                 break;
         }
         log.error("Error occurred: {}", errMsg);
-        return ResponseEntity.status(e.getStatusCode()).body(errMsg);
+        return ResponseEntity.status(HttpStatus.OK).body(errMsg);
     }
 }
