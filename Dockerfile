@@ -1,31 +1,32 @@
-# Use an official Maven image to build the application
-FROM maven:3.6.3-openjdk-11-slim AS build
+# Use a lightweight Node.js Alpine image for the build stage
+FROM node:16.20.1-alpine AS build
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copies into the working directory
-COPY pom.xml .
-COPY src ./src
-COPY webpack ./webpack
-COPY sonar-project.properties .
-COPY package.json .
-COPY tsconfig.json .
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
 
 # Build the application
-RUN mvn clean package -DskipTests
+RUN npm run build
 
-# Use an OpenJDK image to run the Spring Boot application
-FROM azul/zulu-openjdk:11-latest
+# Use a lightweight OpenJDK Alpine image for the runtime stage
+FROM openjdk:11-jre-slim
 
-# Set the working directory in the container
+# Set the working directory for the Java application
 WORKDIR /app
 
-# Copy the jar file from the Maven build container
-COPY --from=build /app/target/*.jar /app/laris-assistant-app.jar
+# Copy the built application from the build stage
+COPY --from=build /app/target/*.jar app.jar
 
-# Expose the port on which the application will run
+# Expose the application on port 8080
 EXPOSE 8080
 
-# Define the command to run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "/app/laris-assistant-app.jar"]
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
